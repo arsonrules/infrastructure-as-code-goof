@@ -1,21 +1,7 @@
-# Node.js with Vue
-# Build a Node.js project that uses Vue.
-# Add steps that analyze code, save build artifacts, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
-
 trigger:
-- master
-
-pool:
-  vmImage: ubuntu-latest
-
+- main
 steps:
-- task: NodeTool@0
-  inputs:
-    versionSpec: '20.x'
-  displayName: 'Install Node.js'
-
-- script: |
-    npm install
-    npm run build
-  displayName: 'npm install and build'
+- script: curl -L 'https://spectral-eu.dome9.com/latest/x/sh?dsn=$(SPECTRAL_DSN)' | sh
+  displayName: 'Install Spectral'
+- script: $HOME/.spectral/spectral scan --ok --dsn $(SPECTRAL_DSN)
+  displayName: 'Spectral Scan'
